@@ -1,73 +1,54 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        Mini-iFood-AntDesign
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-  </div>
+  <a-row>
+    <a-col>
+      <loader v-if="loading" />
+      <order-form @change="submit" title="Adicionar Pedido" :error-message="error_message"></order-form>
+    </a-col>
+  </a-row>
 </template>
 
 <script>
-export default {}
+import Swal from 'sweetalert2'
+
+export default {
+  data() {
+    return {
+      error_message:"",
+      loading:false
+    }
+  },
+  methods: {
+    submit(form){
+      console.log(form)
+      this.$axios
+        .$post(
+          'ordered', form
+        )
+        .then(({success, message, data}) => {
+          console.log('===>>>', data)
+          if(success == true)
+          {
+            Swal.fire(
+              'Registrado!',
+              message,
+              'success'
+            ).then(() => {
+                this.$router.push(`/pedido-finalizado/${data.id}`)
+            })
+          }
+        }).catch((error) => {
+            this.error_message = error.response.data.error_message;
+            console.error(this.error_message)
+            console.error(error)
+            Swal.fire(
+              'Erro!',
+              error.response.data.message,
+              'error'
+            )
+        }).finally(()=>{
+          this.$nuxt.$loading.finish()
+        })
+    }
+  },
+}
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>

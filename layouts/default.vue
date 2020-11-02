@@ -1,9 +1,42 @@
 <template>
   <div>
-    <Nuxt />
+    <a-menu v-model="current" mode="horizontal">
+      <a-menu-item key="mail"> Ant Design Vue</a-menu-item>
+      <a-sub-menu>
+        <span slot="title" class="submenu-title-wrapper"
+          ><a-icon type="setting" />Menu</span
+        >
+        <a-menu-item-group title="Opções">
+          <a-menu-item key="setting:1">
+            Profile
+          </a-menu-item>
+          <a-menu-item @click="logout()" key="setting:2">
+            Logout
+          </a-menu-item>
+        </a-menu-item-group>
+      </a-sub-menu>
+    </a-menu>
+    <nuxt />
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      current: ['home'],
+      user: this.$auth.user
+    }
+  },
+  methods:{
+    async logout(){
+      console.log('logout')
+      await this.$auth.logout(/* .... */)
+      await document.location.reload(true);
+    }
+  }
+}
+</script>
 <style>
 html {
   font-family:
