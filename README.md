@@ -1,6 +1,17 @@
-# Mini-iFood-AntDesign
+# Mini-iFood-BootstrapVue
 
 ## Build Setup
+
+
+```
+cd Projects/Mini-iFood-BootstrapVue/
+```
+
+Utilizar versao do node 14.20
+
+```
+nvm use 14.20
+```
 
 ```bash
 # install dependencies
@@ -9,12 +20,9 @@ $ yarn install
 # serve with hot reload at localhost:3000
 $ yarn dev
 
-# build for production and launch server
-$ yarn build
-$ yarn start
+> Nao fechar o terminal
 
-# generate static project
-$ yarn generate
 ```
+Acesso local
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+[Localhost Mini-iFood-AntDesign](http://localhost:8002)
